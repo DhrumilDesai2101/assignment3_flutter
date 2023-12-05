@@ -48,45 +48,54 @@ class _WeatherPageState extends State<WeatherPage> {
       appBar: AppBar(
         title: Text('Weather'),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Weather Page',
-                style: TextStyle(fontSize: 24),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Weather Page',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  location = value;
+                });
+              },
+              decoration: InputDecoration(
+                labelText: 'Enter Location',
+                border: OutlineInputBorder(),
               ),
-              SizedBox(height: 20),
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    location = value;
-                  });
-                },
-                decoration: InputDecoration(labelText: 'Enter Location'),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (location.isNotEmpty) {
-                    fetchWeatherData();
-                  }
-                },
-                child: Text('Fetch Weather'),
-              ),
-              if (weatherData != null)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Location: ${weatherData!['location']['name']}'),
-                    Text('Temperature: ${weatherData!['current']['temp_c'].toStringAsFixed(1)}°C'),
-                    Text('Weather: ${weatherData!['current']['condition']['text']}'),
-                  ],
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if (location.isNotEmpty) {
+                  fetchWeatherData();
+                }
+              },
+              child: Text('Fetch Weather'),
+            ),
+            SizedBox(height: 20),
+            if (weatherData != null)
+              Card(
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Location: ${weatherData!['location']['name']}'),
+                      Text('Temperature: ${weatherData!['current']['temp_c'].toStringAsFixed(1)}°C'),
+                      Text('Weather: ${weatherData!['current']['condition']['text']}'),
+                    ],
+                  ),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );
