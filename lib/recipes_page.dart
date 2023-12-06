@@ -48,44 +48,53 @@ class _RecipesPageState extends State<RecipesPage> {
       appBar: AppBar(
         title: Text('Recipes'),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Recipes Page',
-                style: TextStyle(fontSize: 24),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Recipes Page',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  userInput = value;
+                });
+              },
+              decoration: InputDecoration(
+                labelText: 'Enter Recipe',
+                border: OutlineInputBorder(),
               ),
-              SizedBox(height: 20),
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    userInput = value;
-                  });
-                },
-                decoration: InputDecoration(labelText: 'Enter Recipe'),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (userInput.isNotEmpty) {
-                    fetchRecipeData();
-                  }
-                },
-                child: Text('Get Recipe'),
-              ),
-              if (recipeData != null)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Ingredients :'),
-                    Text(recipeData!['results']['ingredients'].join(', ')),
-                  ],
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if (userInput.isNotEmpty) {
+                  fetchRecipeData();
+                }
+              },
+              child: Text('Get Recipe'),
+            ),
+            SizedBox(height: 20),
+            if (recipeData != null)
+              Card(
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Ingredients:', style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(recipeData!['results']['ingredients'].join(', ')),
+                    ],
+                  ),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );
